@@ -61,70 +61,90 @@ final class Token extends Object {
   public static final int
 
     // literals, identifiers, operators...
-    INTLITERAL	= 0,
-    CHARLITERAL	= 1,
-    IDENTIFIER	= 2,
-    OPERATOR	= 3,
+    INTLITERAL          = 0,
+    CHARLITERAL         = 1,
+    IDENTIFIER          = 2,
+    OPERATOR            = 3,
 
     // reserved words - must be in alphabetical order...
-    ARRAY		= 4,
-    BEGIN		= 5,
+    AND                 = 4, //INSERT OF AND
+    ARRAY		= 5,
+    //Elimination of begin
     CONST		= 6,
     DO			= 7,
     ELSE		= 8,
     END			= 9,
-    FUNC		= 10,
-    IF			= 11,
-    IN			= 12,
-    LET			= 13,
-    OF			= 14,
-    PROC		= 15,
-    RECORD		= 16,
-    THEN		= 17,
-    TYPE		= 18,
-    VAR			= 19,
-    WHILE		= 20,
+    FOR                 = 10,//INSERT OF FOR
+    FUNC		= 11,
+    IF			= 12,
+    IN			= 13,
+    INIT                = 14,//INSERT OF INIT
+    LET			= 15,
+    LOCAL               = 16,//INSERT OF LOCAL
+    LOOP                = 17,//INSERT OF LOOP
+    OF			= 18,
+    PROC		= 19,
+    RECORD		= 20,
+    RECURSIVE           = 21,//INSERT OF RECURSIVE
+    REPEAT              = 22,//INSERT OF REPEAT
+    SKIP                = 23,//INSERT OF SKIP
+    THEN		= 24,
+    TO                  = 25,//INSERT OF TO
+    TYPE		= 26,
+    UNTIL               = 27,//INSERT OF UNTIL
+    VAR			= 28,
+    WHILE		= 29,
 
     // punctuation...
-    DOT			= 21,
-    COLON		= 22,
-    SEMICOLON	= 23,
-    COMMA		= 24,
-    BECOMES		= 25,
-    IS			= 26,
+    DOT			= 30,
+    COLON		= 31,
+    SEMICOLON           = 32,
+    COMMA		= 33,
+    BECOMES		= 34,
+    IS			= 35,
 
     // brackets...
-    LPAREN		= 27,
-    RPAREN		= 28,
-    LBRACKET	= 29,
-    RBRACKET	= 30,
-    LCURLY		= 31,
-    RCURLY		= 32,
+    LPAREN		= 36,
+    RPAREN		= 37,
+    LBRACKET            = 38,
+    RBRACKET            = 39,
+    LCURLY		= 40,
+    RCURLY		= 41,
 
     // special tokens...
-    EOT			= 33,
-    ERROR		= 34;
+    EOT			= 42,
+    ERROR		= 43;
 
   private static String[] tokenTable = new String[] {
     "<int>",
     "<char>",
     "<identifier>",
     "<operator>",
+    "and", //INSERT OF and
     "array",
-    "begin",
+    //delete of begin
     "const",
     "do",
     "else",
     "end",
+    "for", //INSERT OF for
     "func",
     "if",
     "in",
+    "init", //INSERT OF init
     "let",
+    "local", //INSERT OF local
+    "loop", //INSERT OF loop
     "of",
     "proc",
     "record",
+    "recursive",//INSERT OF recursive
+    "repeat",//INSERT OF repeat
+    "skip",//INSERT OF skip
     "then",
+    "to", //INSERT OF to
     "type",
+    "until", //INSERT OF until
     "var",
     "while",
     ".",
@@ -143,7 +163,7 @@ final class Token extends Object {
     "<error>"
   };
 
-  private final static int	firstReservedWord = Token.ARRAY,
+  private final static int	firstReservedWord = Token.AND, //por prioridad alfabetica cambia la primera palabra reservada.
   				lastReservedWord  = Token.WHILE;
 
 }
