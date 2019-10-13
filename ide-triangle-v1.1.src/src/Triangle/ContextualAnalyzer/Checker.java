@@ -32,6 +32,8 @@ import Triangle.AbstractSyntaxTrees.ConstActualParameter;
 import Triangle.AbstractSyntaxTrees.ConstDeclaration;
 import Triangle.AbstractSyntaxTrees.ConstFormalParameter;
 import Triangle.AbstractSyntaxTrees.Declaration;
+import Triangle.AbstractSyntaxTrees.DoUntilCommand;
+import Triangle.AbstractSyntaxTrees.DoWhileCommand;
 import Triangle.AbstractSyntaxTrees.DotVname;
 import Triangle.AbstractSyntaxTrees.EmptyActualParameterSequence;
 import Triangle.AbstractSyntaxTrees.EmptyCommand;
@@ -39,6 +41,7 @@ import Triangle.AbstractSyntaxTrees.EmptyExpression;
 import Triangle.AbstractSyntaxTrees.EmptyFormalParameterSequence;
 import Triangle.AbstractSyntaxTrees.ErrorTypeDenoter;
 import Triangle.AbstractSyntaxTrees.FieldTypeDenoter;
+import Triangle.AbstractSyntaxTrees.ForDoCommand;
 import Triangle.AbstractSyntaxTrees.FormalParameter;
 import Triangle.AbstractSyntaxTrees.FormalParameterSequence;
 import Triangle.AbstractSyntaxTrees.FuncActualParameter;
@@ -79,6 +82,7 @@ import Triangle.AbstractSyntaxTrees.TypeDeclaration;
 import Triangle.AbstractSyntaxTrees.TypeDenoter;
 import Triangle.AbstractSyntaxTrees.UnaryExpression;
 import Triangle.AbstractSyntaxTrees.UnaryOperatorDeclaration;
+import Triangle.AbstractSyntaxTrees.UntilCommand;
 import Triangle.AbstractSyntaxTrees.VarActualParameter;
 import Triangle.AbstractSyntaxTrees.VarDeclaration;
 import Triangle.AbstractSyntaxTrees.VarFormalParameter;
@@ -119,10 +123,42 @@ public final class Checker implements Visitor {
     return null;
   }
 
+  //doUntil agregado 
+  public Object visitDoUntilCommand(DoUntilCommand ast, Object o){
+      TypeDenoter eType = (TypeDenoter) ast.eAST.visit(this, null);
+    if (! eType.equals(StdEnvironment.booleanType))
+      reporter.reportError("Boolean expression expected here", "", ast.eAST.position);
+    ast.eAST.visit(this, null);
+    idTable.openScope();
+    ast.cAST.visit(this, null);
+    idTable.closeScope();
+    return null;
+  }
+  
+  //doWhile  agregado
+  public Object visitDoWhileCommand(DoWhileCommand ast, Object o)
+  {   
+      TypeDenoter eType = (TypeDenoter) ast.eAST.visit(this, null);
+      if (! eType.equals(StdEnvironment.booleanType))
+        reporter.reportError ("Boolean expression expected here", "",
+                            ast.eAST.position);
+      idTable.openScope();
+      ast.cAST.visit(this, null);
+      idTable.closeScope();
+      ast.eAST.visit(this, null);
+      return null;
+  }
+  
   public Object visitEmptyCommand(EmptyCommand ast, Object o) {
     return null;
   }
 
+  //for command, falta implementar
+  public Object visitForDoCommand(ForDoCommand ast, Object o){
+      return null;
+  }
+  
+  
   public Object visitIfCommand(IfCommand ast, Object o) {
     TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
     if (! eType.equals(StdEnvironment.booleanType))
@@ -145,7 +181,19 @@ public final class Checker implements Visitor {
     ast.C2.visit(this, null);
     return null;
   }
-
+  
+  //Until Visitor agregado
+  public Object visitUntilCommand(UntilCommand ast,Object o){
+    TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
+    if (! eType.equals(StdEnvironment.booleanType))
+      reporter.reportError("Boolean expression expected here", "", ast.E.position);
+    ast.E.visit(this, null);
+    idTable.openScope();
+    ast.C.visit(this, null);
+    idTable.closeScope();
+    return null;
+  }
+  
   public Object visitWhileCommand(WhileCommand ast, Object o) {
     TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
     if (! eType.equals(StdEnvironment.booleanType))

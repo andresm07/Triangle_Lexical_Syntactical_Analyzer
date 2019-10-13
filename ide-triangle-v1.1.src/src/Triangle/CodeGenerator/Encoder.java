@@ -40,12 +40,15 @@ import Triangle.AbstractSyntaxTrees.ConstActualParameter;
 import Triangle.AbstractSyntaxTrees.ConstDeclaration;
 import Triangle.AbstractSyntaxTrees.ConstFormalParameter;
 import Triangle.AbstractSyntaxTrees.Declaration;
+import Triangle.AbstractSyntaxTrees.DoUntilCommand;
+import Triangle.AbstractSyntaxTrees.DoWhileCommand;
 import Triangle.AbstractSyntaxTrees.DotVname;
 import Triangle.AbstractSyntaxTrees.EmptyActualParameterSequence;
 import Triangle.AbstractSyntaxTrees.EmptyCommand;
 import Triangle.AbstractSyntaxTrees.EmptyExpression;
 import Triangle.AbstractSyntaxTrees.EmptyFormalParameterSequence;
 import Triangle.AbstractSyntaxTrees.ErrorTypeDenoter;
+import Triangle.AbstractSyntaxTrees.ForDoCommand;
 import Triangle.AbstractSyntaxTrees.FuncActualParameter;
 import Triangle.AbstractSyntaxTrees.FuncDeclaration;
 import Triangle.AbstractSyntaxTrees.FuncFormalParameter;
@@ -82,6 +85,7 @@ import Triangle.AbstractSyntaxTrees.SubscriptVname;
 import Triangle.AbstractSyntaxTrees.TypeDeclaration;
 import Triangle.AbstractSyntaxTrees.UnaryExpression;
 import Triangle.AbstractSyntaxTrees.UnaryOperatorDeclaration;
+import Triangle.AbstractSyntaxTrees.UntilCommand;
 import Triangle.AbstractSyntaxTrees.VarActualParameter;
 import Triangle.AbstractSyntaxTrees.VarDeclaration;
 import Triangle.AbstractSyntaxTrees.VarFormalParameter;
@@ -109,10 +113,47 @@ public final class Encoder implements Visitor {
     return null;
   }
 
+  //DoUntil visit, agregado
+    public Object visitDoUntilCommand(DoUntilCommand ast, Object o)
+    {
+        Frame frame = (Frame) o;
+        int jumpAddr, loopAddr;
+        jumpAddr = nextInstrAddr;
+        emit(Machine.JUMPop, 0, Machine.CBr, 0);
+        loopAddr = nextInstrAddr;
+        ast.cAST.visit(this, frame);
+        patch(jumpAddr, nextInstrAddr);
+        ast.eAST.visit(this, frame);
+        emit(Machine.JUMPIFop, Machine.falseRep, Machine.CBr, loopAddr);
+        return null;
+    }
+  
+  //Dowhile visit, agregado
+  public Object visitDoWhileCommand(DoWhileCommand ast, Object o)
+  {
+        Frame frame = (Frame) o;
+        int jumpAddr, loopAddr;
+        jumpAddr = nextInstrAddr;
+        emit(Machine.JUMPop, 0, Machine.CBr, 0);
+        loopAddr = nextInstrAddr;
+        ast.cAST.visit(this, frame);
+        patch(jumpAddr, nextInstrAddr);
+        ast.eAST.visit(this, frame);
+        emit(Machine.JUMPIFop, Machine.trueRep, Machine.CBr, loopAddr);
+        return null;
+  }
+  
   public Object visitEmptyCommand(EmptyCommand ast, Object o) {
     return null;
   }
 
+  //for command visit, agregado, falta
+  public Object visitForDoCommand(ForDoCommand ast, Object o)
+    {
+        return null;
+    }
+  
+  
   public Object visitIfCommand(IfCommand ast, Object o) {
     Frame frame = (Frame) o;
     int jumpifAddr, jumpAddr;
@@ -141,6 +182,19 @@ public final class Encoder implements Visitor {
   public Object visitSequentialCommand(SequentialCommand ast, Object o) {
     ast.C1.visit(this, o);
     ast.C2.visit(this, o);
+    return null;
+  }
+  
+  public Object visitUntilCommand(UntilCommand ast,Object o){
+    Frame frame = (Frame) o;
+    int jumpAddr, loopAddr;
+    jumpAddr = nextInstrAddr;
+    emit(Machine.JUMPop, 0, Machine.CBr, 0);
+    loopAddr = nextInstrAddr;
+    ast.C.visit(this, frame);
+    patch(jumpAddr, nextInstrAddr);
+    ast.E.visit(this, frame);
+    emit(Machine.JUMPIFop, Machine.trueRep, Machine.CBr, loopAddr);
     return null;
   }
 

@@ -20,10 +20,14 @@ public interface Visitor {
   public abstract Object visitAssignCommand(AssignCommand ast, Object o);
   public abstract Object visitCallCommand(CallCommand ast, Object o);
   public abstract Object visitEmptyCommand(EmptyCommand ast, Object o);
+  public abstract Object visitDoUntilCommand(DoUntilCommand ast, Object o); //Visit para DoUntil agregado
+  public abstract Object visitDoWhileCommand(DoWhileCommand ast, Object o); //Visit para DoWhile agregado
+  public abstract Object visitForDoCommand(ForDoCommand ast, Object o); //visit para ForDo agreagado
   public abstract Object visitIfCommand(IfCommand ast, Object o);
   public abstract Object visitLetCommand(LetCommand ast, Object o);
   public abstract Object visitSequentialCommand(SequentialCommand ast, Object o);
   public abstract Object visitWhileCommand(WhileCommand ast, Object o);
+  public abstract Object visitUntilCommand(UntilCommand ast, Object o); //Visit de Until agreagado
 
 
   // Expressions
