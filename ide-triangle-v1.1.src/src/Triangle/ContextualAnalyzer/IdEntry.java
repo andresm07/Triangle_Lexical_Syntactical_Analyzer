@@ -22,14 +22,14 @@ public class IdEntry {
   protected Declaration attr;
   protected int level;
   protected IdEntry previous;
-  protected boolean privateLevel;
+  protected boolean localLevel;
 
-  IdEntry (String id, Declaration attr, int level, IdEntry previous, boolean privateLevel) {
+  IdEntry (String id, Declaration attr, int level, IdEntry previous, boolean localLevel) {
     this.id = id;
     this.attr = attr;
     this.level = level;
     this.previous = previous;
-    this.privateLevel = privateLevel;
+    this.localLevel = localLevel;
   }
 
 }

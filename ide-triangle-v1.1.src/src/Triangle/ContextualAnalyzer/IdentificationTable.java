@@ -20,7 +20,7 @@ public final class IdentificationTable {
 
   private int level;
   private IdEntry latest;
-  protected boolean privateScope = false;
+  protected boolean localScope = false;
 
   public IdentificationTable () {
     level = 0;
@@ -35,9 +35,9 @@ public final class IdentificationTable {
     level ++;
   }
 
-  // openPrivateScope added on 10/14/19 by andres.mirandaarias@gmail.com
-  public void openPrivateScope () {
-    privateScope = true;
+  // openLocalScope added on 10/14/19 by andres.mirandaarias@gmail.com
+  public void openLocalScope () {
+    localScope = true;
   }
 
   // Closes the topmost level in the identification table, discarding
@@ -57,21 +57,21 @@ public final class IdentificationTable {
     this.latest = entry;
   }
 
-  // closePrivateScope added on 10/14/19 by andres.mirandaarias@gmail.com
-  public void closePrivateScope () {
-    privateScope = false;
+  // closeLocalScope added on 10/14/19 by andres.mirandaarias@gmail.com
+  public void closeLocalScope () {
+    localScope = false;
   }
 
-  public void clearPrivateScope () {
-    IdEntry entry, local, privateDecl;
+  public void clearLocalScope () {
+    IdEntry entry, local, localDecl;
     entry = this.latest;
-    privateDecl = this.latest.previous;
-    while (privateDecl.privateLevel != true) {
+    localDecl = this.latest.previous;
+    while (localDecl.localLevel != true) {
       local = entry;
       entry = local.previous;
-      privateDecl = local.previous;
+      localDecl = local.previous;
     }
-    entry.previous = privateDecl.previous;
+    entry.previous = localDecl.previous;
     this.latest = entry;
   }
 
@@ -98,7 +98,7 @@ public final class IdentificationTable {
 
     attr.duplicated = present;
     // Add new entry ...
-    if(privateScope){
+    if(localScope){
         entry = new IdEntry(id, attr, this.level, this.latest, true);
     } else{
         entry = new IdEntry(id, attr, this.level, this.latest, false);

@@ -301,17 +301,17 @@ public final class Checker implements Visitor {
   }
 
   public Object visitLocalDeclaration(LocalDeclaration ast, Object o){
-    idTable.openPrivateScope();
+    idTable.openLocalScope();
     if(ast.dcl1 instanceof LocalDeclaration){
       visitLocalDeclarationNested((LocalDeclaration)ast.dcl1,o);
     } else{
       ast.dcl1.visit(this,o);
     }
-    idTable.closePrivateScope();
+    idTable.closeLocalScope();
     ast.dcl2.visit(this,o);
-    idTable.clearPrivateScope();
+    idTable.clearLocalScope();
     if(ast.dcl1 instanceof LocalDeclaration){
-      idTable.clearPrivateScope();
+      idTable.clearLocalScope();
     }
     return null;
   }
