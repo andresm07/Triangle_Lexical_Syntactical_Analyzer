@@ -9,7 +9,7 @@ import Core.Console.OutputRedirector;
 import Core.IDE.IDEDisassembler;
 import Core.IDE.IDEInterpreter;
 import Core.Visitors.TableVisitor;
-import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
+//import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.ClipboardOwner;
@@ -33,6 +33,7 @@ import javax.swing.JOptionPane;
 import javax.swing.LookAndFeel;
 import javax.swing.UIManager;
 import Triangle.IDECompiler;
+import Triangle.TreeWriterXML.Writer;
 import Core.ExampleFileFilter;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
@@ -53,7 +54,7 @@ public class Main extends javax.swing.JFrame {
      */
     public Main() {        
         try {
-            UIManager.setLookAndFeel(new WindowsLookAndFeel());            
+            //UIManager.setLookAndFeel(new WindowsLookAndFeel());            
         } catch (Exception e) { }
         
         initComponents();
@@ -611,7 +612,7 @@ public class Main extends javax.swing.JFrame {
             ((FileFrame)desktopPane.getSelectedFrame()).clearTAMCode();
             ((FileFrame)desktopPane.getSelectedFrame()).clearTree();
             ((FileFrame)desktopPane.getSelectedFrame()).clearTable();
-            new File(desktopPane.getSelectedFrame().getTitle().replace(".tri", ".tam")).delete();
+            //new File(desktopPane.getSelectedFrame().getTitle().replace(".tri", ".tam")).delete();
             
             output.setDelegate(delegateConsole);            
             if (compiler.compileProgram(desktopPane.getSelectedFrame().getTitle())) {           
@@ -619,6 +620,11 @@ public class Main extends javax.swing.JFrame {
                 //disassembler.Disassemble(desktopPane.getSelectedFrame().getTitle().replace(".tri", ".tam"));
                 ((FileFrame)desktopPane.getSelectedFrame()).setTree((DefaultMutableTreeNode)treeVisitor.visitProgram(compiler.getAST(), null));
                 //((FileFrame)desktopPane.getSelectedFrame()).setTable(tableVisitor.getTable(compiler.getAST()));
+                
+                //create the XML file of the AST
+                Writer treeWriterXML = new Writer(desktopPane.getSelectedFrame().getTitle().replace(".tri", ""));
+                treeWriterXML.write(compiler.getAST());
+                
                 
                 runMenuItem.setEnabled(false);
                 buttonRun.setEnabled(false);
