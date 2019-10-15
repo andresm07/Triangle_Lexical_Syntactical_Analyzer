@@ -28,7 +28,8 @@ public class Program extends AST {
   }
 
     public Program(Command cAST, SourcePosition previousTokenPosition) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        super(previousTokenPosition);
+        C = cAST;
     }
 
   public Object visit(Visitor v, Object o) {
