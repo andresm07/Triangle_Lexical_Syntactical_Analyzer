@@ -60,6 +60,7 @@ import Triangle.AbstractSyntaxTrees.IntegerExpression;
 import Triangle.AbstractSyntaxTrees.IntegerLiteral;
 import Triangle.AbstractSyntaxTrees.LetCommand;
 import Triangle.AbstractSyntaxTrees.LetExpression;
+import Triangle.AbstractSyntaxTrees.LocalDeclaration;
 import Triangle.AbstractSyntaxTrees.MultipleActualParameterSequence;
 import Triangle.AbstractSyntaxTrees.MultipleArrayAggregate;
 import Triangle.AbstractSyntaxTrees.MultipleFieldTypeDenoter;
@@ -72,6 +73,7 @@ import Triangle.AbstractSyntaxTrees.ProcFormalParameter;
 import Triangle.AbstractSyntaxTrees.Program;
 import Triangle.AbstractSyntaxTrees.RecordExpression;
 import Triangle.AbstractSyntaxTrees.RecordTypeDenoter;
+import Triangle.AbstractSyntaxTrees.RecursiveDeclaration;
 import Triangle.AbstractSyntaxTrees.SequentialCommand;
 import Triangle.AbstractSyntaxTrees.SequentialDeclaration;
 import Triangle.AbstractSyntaxTrees.SimpleTypeDenoter;
@@ -88,6 +90,7 @@ import Triangle.AbstractSyntaxTrees.UnaryOperatorDeclaration;
 import Triangle.AbstractSyntaxTrees.UntilCommand;
 import Triangle.AbstractSyntaxTrees.VarActualParameter;
 import Triangle.AbstractSyntaxTrees.VarDeclaration;
+import Triangle.AbstractSyntaxTrees.VarDeclarationInit;
 import Triangle.AbstractSyntaxTrees.VarFormalParameter;
 import Triangle.AbstractSyntaxTrees.Visitor;
 import Triangle.AbstractSyntaxTrees.Vname;
@@ -286,6 +289,14 @@ public final class Encoder implements Visitor {
     return valSize;
   }
 
+  public Object visitLocalDeclaration(LocalDeclaration ast, Object o){
+    Frame frame = (Frame) o;
+    int extraSize1 = ((Integer)ast.dcl1.visit(this,frame)).intValue();
+    int extraSize2 = ((Integer)ast.dcl2.visit(this,frame)).intValue();
+    int total = extraSize1 + extraSize2;
+    return total;
+  }
+
   public Object visitRecordExpression(RecordExpression ast, Object o){
     ast.type.visit(this, null);
     return ast.RA.visit(this, o);
@@ -405,6 +416,16 @@ public final class Encoder implements Visitor {
     extraSize = ((Integer) ast.T.visit(this, null)).intValue();
     emit(Machine.PUSHop, 0, 0, extraSize);
     ast.entity = new KnownAddress(Machine.addressSize, frame.level, frame.size);
+    writeTableDetails(ast);
+    return new Integer(extraSize);
+  }
+
+  //visitVarDeclarationInit was added on 10/14/19 by andres.mirandaarias@gmail.com
+  public Object visitVarDeclarationInit(VarDeclarationInit ast, Object o){
+    Frame frame = (Frame) o;
+    int extraSize = (Integer)ast.E.visit(this,frame);
+    emit(Machine.PUSHop,0,0,extraSize);
+    ast.entity = new KnownAddress(Machine.addressSize,frame.level,frame.size);
     writeTableDetails(ast);
     return new Integer(extraSize);
   }
@@ -630,6 +651,10 @@ public final class Encoder implements Visitor {
     return new Integer(typeSize);
   }
 
+  //missing
+  public Object visitRecursiveDeclaration(RecursiveDeclaration ast, Object o){
+    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+  }
 
   public Object visitMultipleFieldTypeDenoter(MultipleFieldTypeDenoter ast,
 					      Object o) {

@@ -40,6 +40,7 @@ import Triangle.AbstractSyntaxTrees.IntegerExpression;
 import Triangle.AbstractSyntaxTrees.IntegerLiteral;
 import Triangle.AbstractSyntaxTrees.LetCommand;
 import Triangle.AbstractSyntaxTrees.LetExpression;
+import Triangle.AbstractSyntaxTrees.LocalDeclaration;
 import Triangle.AbstractSyntaxTrees.MultipleActualParameterSequence;
 import Triangle.AbstractSyntaxTrees.MultipleArrayAggregate;
 import Triangle.AbstractSyntaxTrees.MultipleFieldTypeDenoter;
@@ -52,6 +53,7 @@ import Triangle.AbstractSyntaxTrees.ProcFormalParameter;
 import Triangle.AbstractSyntaxTrees.Program;
 import Triangle.AbstractSyntaxTrees.RecordExpression;
 import Triangle.AbstractSyntaxTrees.RecordTypeDenoter;
+import Triangle.AbstractSyntaxTrees.RecursiveDeclaration;
 import Triangle.AbstractSyntaxTrees.SequentialCommand;
 import Triangle.AbstractSyntaxTrees.SequentialDeclaration;
 import Triangle.AbstractSyntaxTrees.SimpleTypeDenoter;
@@ -68,6 +70,7 @@ import Triangle.AbstractSyntaxTrees.UnaryOperatorDeclaration;
 import Triangle.AbstractSyntaxTrees.UntilCommand;
 import Triangle.AbstractSyntaxTrees.VarActualParameter;
 import Triangle.AbstractSyntaxTrees.VarDeclaration;
+import Triangle.AbstractSyntaxTrees.VarDeclarationInit;
 import Triangle.AbstractSyntaxTrees.VarFormalParameter;
 import Triangle.AbstractSyntaxTrees.Visitor;
 import Triangle.AbstractSyntaxTrees.VnameExpression;
@@ -80,7 +83,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
  *
  * Generates DefaultMutableTreeNodes, used to draw a JTree.
  *
- * @author Luis Leopoldo Pérez <luiperpe@ns.isi.ulatina.ac.cr>
+ * @author Luis Leopoldo Pï¿½rez <luiperpe@ns.isi.ulatina.ac.cr>
  */
 public class TreeVisitor implements Visitor {
       
@@ -174,6 +177,10 @@ public class TreeVisitor implements Visitor {
     public Object visitLetExpression(LetExpression ast, Object obj) {
         return(createBinary("Let Expression", ast.D, ast.E));
     }
+
+    public Object visitLocalDeclaration(LocalDeclaration ast, Object obj){
+        return(createBinary("Local Declaration", ast.dcl1, ast.dcl2));
+    }
     
     public Object visitRecordExpression(RecordExpression ast, Object obj) {
         return(createUnary("Record Expression", ast.RA));
@@ -221,6 +228,11 @@ public class TreeVisitor implements Visitor {
     public Object visitVarDeclaration(VarDeclaration ast, Object obj) {
         return(createBinary("Variable Declaration", ast.I, ast.T));
     }
+
+    public Object visitVarDeclarationInit(VarDeclarationInit ast, Object obj){
+        return(createBinary("Variable Declaration Init", ast.I, ast.E));
+    }
+
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc=" Aggregates ">
@@ -335,6 +347,10 @@ public class TreeVisitor implements Visitor {
     
     public Object visitRecordTypeDenoter(RecordTypeDenoter ast, Object obj) {
         return(createUnary("Record Type Denoter", ast.FT));
+    }
+
+    public Object visitRecursiveDeclaration(RecursiveDeclaration ast, Object obj){
+        return(createUnary("Recursive Declaration", ast.procFuncAST));
     }
     
     public Object visitMultipleFieldTypeDenoter(MultipleFieldTypeDenoter ast, Object obj) {

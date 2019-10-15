@@ -40,6 +40,7 @@ import Triangle.AbstractSyntaxTrees.IntegerExpression;
 import Triangle.AbstractSyntaxTrees.IntegerLiteral;
 import Triangle.AbstractSyntaxTrees.LetCommand;
 import Triangle.AbstractSyntaxTrees.LetExpression;
+import Triangle.AbstractSyntaxTrees.LocalDeclaration;
 import Triangle.AbstractSyntaxTrees.MultipleActualParameterSequence;
 import Triangle.AbstractSyntaxTrees.MultipleArrayAggregate;
 import Triangle.AbstractSyntaxTrees.MultipleFieldTypeDenoter;
@@ -52,6 +53,7 @@ import Triangle.AbstractSyntaxTrees.ProcFormalParameter;
 import Triangle.AbstractSyntaxTrees.Program;
 import Triangle.AbstractSyntaxTrees.RecordExpression;
 import Triangle.AbstractSyntaxTrees.RecordTypeDenoter;
+import Triangle.AbstractSyntaxTrees.RecursiveDeclaration;
 import Triangle.AbstractSyntaxTrees.SequentialCommand;
 import Triangle.AbstractSyntaxTrees.SequentialDeclaration;
 import Triangle.AbstractSyntaxTrees.SimpleTypeDenoter;
@@ -68,6 +70,7 @@ import Triangle.AbstractSyntaxTrees.UnaryOperatorDeclaration;
 import Triangle.AbstractSyntaxTrees.UntilCommand;
 import Triangle.AbstractSyntaxTrees.VarActualParameter;
 import Triangle.AbstractSyntaxTrees.VarDeclaration;
+import Triangle.AbstractSyntaxTrees.VarDeclarationInit;
 import Triangle.AbstractSyntaxTrees.VarFormalParameter;
 import Triangle.AbstractSyntaxTrees.Visitor;
 import Triangle.AbstractSyntaxTrees.VnameExpression;
@@ -88,7 +91,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * Generates a DefaultTableModel, used to draw a Jable.
  *
- * @author Luis Leopoldo Pérez <luiperpe@ns.isi.ulatina.ac.cr>
+ * @author Luis Leopoldo Pï¿½rez <luiperpe@ns.isi.ulatina.ac.cr>
  */
 public class TableVisitor implements Visitor {
     
@@ -231,6 +234,13 @@ public class TableVisitor implements Visitor {
 
       return(null);
   }
+
+  public Object visitLocalDeclaration(LocalDeclaration ast, Object o){
+      ast.dcl1.visit(this,null);
+      ast.dcl2.visit(this,null);
+      
+      return(null);
+  }
   
   public Object visitRecordExpression(RecordExpression ast, Object o) {   
       ast.RA.visit(this, null);
@@ -345,6 +355,36 @@ public class TableVisitor implements Visitor {
       
       ast.T.visit(this, null);
       return(null);
+  }
+
+  //visitVarDeclarationInit was added on 10/14/19 by andres.mirandaarias@gmail.com
+  public Object visitVarDeclarationInit(VarDeclarationInit ast, Object o){
+      try{
+          String type = "";
+          int value = -1, displacement = -1, level = -1;
+          if(ast.entity instanceof KnownValue){
+              type = "KnownAddress";
+              value = ((KnownValue)ast.entity).value;
+          }
+          else if(ast.entity instanceof UnknownValue){
+              type = "UnknownAddress";
+              level = ((UnknownValue)ast.entity).address.level;
+              displacement = ((UnknownValue)ast.entity).address.displacement;
+          }
+
+          addIdentifier(ast.I.spelling,
+                        type,
+                        (ast.entity!=null?ast.entity.size:0),
+                        level,
+                        displacement,
+                        value);
+      } catch(NullPointerException e){}
+
+      ast.E.visit(this,null);
+      ast.I.visit(this,null);
+
+      return(null);
+      
   }
   
   // </editor-fold>
@@ -539,6 +579,11 @@ public class TableVisitor implements Visitor {
   
   public Object visitRecordTypeDenoter(RecordTypeDenoter ast, Object o) {   
       ast.FT.visit(this, null);
+      return(null);
+  }
+
+  public Object visitRecursiveDeclaration(RecursiveDeclaration ast, Object o){
+      ast.procFuncAST.visit(this,null);
       return(null);
   }
 

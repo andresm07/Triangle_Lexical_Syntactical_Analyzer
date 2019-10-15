@@ -20,6 +20,7 @@ public final class IdentificationTable {
 
   private int level;
   private IdEntry latest;
+  protected boolean privateScope = false;
 
   public IdentificationTable () {
     level = 0;
@@ -32,6 +33,11 @@ public final class IdentificationTable {
   public void openScope () {
 
     level ++;
+  }
+
+  // openPrivateScope added on 10/14/19 by andres.mirandaarias@gmail.com
+  public void openPrivateScope () {
+    privateScope = true;
   }
 
   // Closes the topmost level in the identification table, discarding
@@ -48,6 +54,24 @@ public final class IdentificationTable {
       entry = local.previous;
     }
     this.level--;
+    this.latest = entry;
+  }
+
+  // closePrivateScope added on 10/14/19 by andres.mirandaarias@gmail.com
+  public void closePrivateScope () {
+    privateScope = false;
+  }
+
+  public void clearPrivateScope () {
+    IdEntry entry, local, privateDecl;
+    entry = this.latest;
+    privateDecl = this.latest.previous;
+    while (privateDecl.privateLevel != true) {
+      local = entry;
+      entry = local.previous;
+      privateDecl = local.previous;
+    }
+    entry.previous = privateDecl.previous;
     this.latest = entry;
   }
 
@@ -74,7 +98,11 @@ public final class IdentificationTable {
 
     attr.duplicated = present;
     // Add new entry ...
-    entry = new IdEntry(id, attr, this.level, this.latest);
+    if(privateScope){
+        entry = new IdEntry(id, attr, this.level, this.latest, true);
+    } else{
+        entry = new IdEntry(id, attr, this.level, this.latest, false);
+    }
     this.latest = entry;
   }
 
