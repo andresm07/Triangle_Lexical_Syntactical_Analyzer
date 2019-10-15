@@ -15,17 +15,28 @@
 package Triangle.AbstractSyntaxTrees;
 
 import Triangle.SyntacticAnalyzer.SourcePosition;
+import java.util.ArrayList;
 
 public class Program extends AST {
 
-  public Program (Command cAST, SourcePosition thePosition) {
+
+  public Program (Declaration packageAST, Command cAST, SourcePosition thePosition, ArrayList<Commentary> commentarys) {
     super (thePosition);
+    this.packageAST = packageAST;
     C = cAST;
+    this.commentarys = commentarys;
   }
+
+    public Program(Command cAST, SourcePosition previousTokenPosition) {
+        super(previousTokenPosition);
+        C = cAST;
+    }
 
   public Object visit(Visitor v, Object o) {
     return v.visitProgram(this, o);
   }
 
   public Command C;
+  public Declaration packageAST = null;
+  public ArrayList<Commentary> commentarys;
 }
