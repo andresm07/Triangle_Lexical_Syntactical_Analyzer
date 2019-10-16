@@ -34,6 +34,7 @@ import javax.swing.LookAndFeel;
 import javax.swing.UIManager;
 import Triangle.IDECompiler;
 import Triangle.TreeWriterXML.Writer;
+import Triangle.HTMLWriter.HTMLWriter;
 import Core.ExampleFileFilter;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
@@ -620,6 +621,10 @@ public class Main extends javax.swing.JFrame {
                 //disassembler.Disassemble(desktopPane.getSelectedFrame().getTitle().replace(".tri", ".tam"));
                 ((FileFrame)desktopPane.getSelectedFrame()).setTree((DefaultMutableTreeNode)treeVisitor.visitProgram(compiler.getAST(), null));
                 //((FileFrame)desktopPane.getSelectedFrame()).setTable(tableVisitor.getTable(compiler.getAST()));
+                
+                //create HTML file of the code
+                HTMLWriter htmlWriter = new HTMLWriter(desktopPane.getSelectedFrame().getTitle().replace(".tri", ""));
+                htmlWriter.write(compiler.getHTML());
                 
                 //create the XML file of the AST
                 Writer treeWriterXML = new Writer(desktopPane.getSelectedFrame().getTitle().replace(".tri", ""));

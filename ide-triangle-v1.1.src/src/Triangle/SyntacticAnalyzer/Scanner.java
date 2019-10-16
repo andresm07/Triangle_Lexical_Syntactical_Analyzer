@@ -22,6 +22,8 @@ public final class Scanner {
 
   private char currentChar;
   private StringBuffer currentSpelling;
+  private String currentHTML = "";                   //variable that stores the code for html representation
+  private String currentComment = "";
   private boolean currentlyScanningToken;
 
   private boolean isLetter(char c) {
@@ -69,15 +71,24 @@ public final class Scanner {
     switch (currentChar) {
     case '!':
       {
+        currentComment += currentChar;
         takeIt();
-        while ((currentChar != SourceFile.EOL) && (currentChar != SourceFile.EOT))
-          takeIt();
-        if (currentChar == SourceFile.EOL)
-          takeIt();
+        while ((currentChar != SourceFile.EOL) && (currentChar != SourceFile.EOT)) {
+            currentComment += currentChar;
+            takeIt();
+        }
+          
+        if (currentChar == SourceFile.EOL){
+            currentComment += "<br>";
+            takeIt();
+        }
+        insertHTML(1001, currentComment);
+        currentComment = "";
       }
       break;
 
     case ' ': case '\n': case '\r': case '\t':
+      insertHTML(1002, String.valueOf(currentChar)); //insert spaces in HTML
       takeIt();
       break;
     }
@@ -191,6 +202,7 @@ public final class Scanner {
     int kind;
 
     currentlyScanningToken = false;
+   
     while (currentChar == '!'
            || currentChar == ' '
            || currentChar == '\n'
@@ -207,9 +219,47 @@ public final class Scanner {
 
     pos.finish = sourceFile.getCurrentLine();
     tok = new Token(kind, currentSpelling.toString(), pos);
+    insertHTML(tok.kind, currentSpelling.toString());     //insert the token in html
     if (debug)
       System.out.println(tok);
     return tok;
+  }
+  
+  
+  public void insertHTML(int type, String text) {
+      switch(type) {
+          case 1001:
+              currentHTML+=("<span class='comment'>"+text+"</span>");
+              break;
+          case 1002:
+              if(text.equals(" ")) {
+                  currentHTML+="&nbsp;";
+              } else if (text.equals("\t")) {
+                  currentHTML+="&ensp;";
+              } else if(text.equals("\n")) {
+                  currentHTML+="<br>";
+              }
+              break;
+          case Token.INTLITERAL:  case Token.CHARLITERAL:
+              currentHTML+=("<span class='literal'>"+text+"</span>");
+              break;
+          case Token.AND:  case Token.ARRAY:  case Token.CONST:  case Token.DO:
+          case Token.ELSE:  case Token.END:  case Token.FOR:  case Token.FUNC:
+          case Token.IF:  case Token.IN:  case Token.INIT:  case Token.LET:
+          case Token.LOCAL:  case Token.LOOP:  case Token.OF:  case Token.PROC:
+          case Token.RECORD:  case Token.RECURSIVE:  case Token.REPEAT:  case Token.SKIP:
+          case Token.THEN:  case Token.TO:  case Token.TYPE:  case Token.UNTIL:
+          case Token.VAR:  case Token.WHILE:
+              currentHTML+=("<span class='reservedword'>"+text+"</span>");
+              break;
+          default:
+              currentHTML+=text;
+              break;
+      }
+  }
+  
+  public String getCurrentHTML() {
+      return currentHTML;
   }
 
 }

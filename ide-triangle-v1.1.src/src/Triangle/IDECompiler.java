@@ -52,6 +52,7 @@ public class IDECompiler {
         boolean success = false;
         
         rootAST = parser.parseProgram();
+        htmlFile = scanner.getCurrentHTML();
         if (report.numErrors == 0) {
             //System.out.println("Contextual Analysis ...");
             //Checker checker = new Checker(report);
@@ -91,10 +92,15 @@ public class IDECompiler {
     public Program getAST() {
         return(rootAST);
     }
+    
+    public String getHTML() {
+        return htmlFile;
+    }
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc=" Attributes ">
     private Program rootAST;        // The Root Abstract Syntax Tree.    
     private IDEReporter report;     // Our ErrorReporter class.
+    private String htmlFile;        // html string to create the file.
     // </editor-fold>
 }
