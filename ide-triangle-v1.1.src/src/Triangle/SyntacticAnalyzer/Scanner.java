@@ -23,7 +23,7 @@ public final class Scanner {
   private char currentChar;
   private StringBuffer currentSpelling;
   private String currentHTML = "";                   //variable that stores the code for html representation
-  private String currentComment = "";
+  private String currentComment = "";                //variable that handles the comments in code
   private boolean currentlyScanningToken;
 
   private boolean isLetter(char c) {
@@ -71,24 +71,24 @@ public final class Scanner {
     switch (currentChar) {
     case '!':
       {
-        currentComment += currentChar;
+        currentComment += currentChar; //adds characters to comment var
         takeIt();
         while ((currentChar != SourceFile.EOL) && (currentChar != SourceFile.EOT)) {
-            currentComment += currentChar;
+            currentComment += currentChar;  //adds the characters to comment var
             takeIt();
         }
           
         if (currentChar == SourceFile.EOL){
-            currentComment += "<br>";
+            currentComment += "<br>"; //adds new line in comment var
             takeIt();
         }
-        insertHTML(1001, currentComment);
-        currentComment = "";
+        insertHTML(1001, currentComment); //insert the comment on html var
+        currentComment = ""; //cleans variable to recive a new comment
       }
       break;
 
     case ' ': case '\n': case '\r': case '\t':
-      insertHTML(1002, String.valueOf(currentChar)); //insert spaces in HTML
+      insertHTML(1002, String.valueOf(currentChar)); //insert spaces or new lines in HTML
       takeIt();
       break;
     }
@@ -225,7 +225,8 @@ public final class Scanner {
     return tok;
   }
   
-  
+  // Identifies wich type of string is taking and inserts it on 
+  // HTML variable with a tag of the given kind
   public void insertHTML(int type, String text) {
       switch(type) {
           case 1001:

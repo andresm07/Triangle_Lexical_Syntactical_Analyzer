@@ -1,12 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Triangle.HTMLWriter;
 
-import Triangle.AbstractSyntaxTrees.Program;
-import Triangle.TreeWriterXML.WriterVisitor;
+
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -17,9 +11,12 @@ public class HTMLWriter {
         this.fileName = fileName;
     }
 
-    // Draw the AST representing a complete program.
+    /**
+     * output HTML file of the code
+     * @param html 
+     */
     public void write(String html) {
-        // Prepare the file to write
+        
         try {
             FileWriter fileWriter = new FileWriter(fileName + ".html");
 
