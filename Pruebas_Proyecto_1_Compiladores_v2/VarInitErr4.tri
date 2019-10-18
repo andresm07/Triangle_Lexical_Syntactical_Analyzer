@@ -1,9 +1,0 @@
-let
-	var j := 'c'; ! sintaxis inválida, no es como la asignación (":=")
-	var i : Integer;
-	var y : Integer
-in
-	pass
-end
-
-! Error sintáctico: usar ":=" y no "::="

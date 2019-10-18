@@ -1,8 +1,0 @@
-let
-	var i: Integer | var k: Integer end
-in 
-	putint(i);
-	put(i)
-end
-
-! Error: falta par
