@@ -1,0 +1,8 @@
+let
+  var repeat: Integer
+in
+  putint (repeat);
+  puteol ()
+end
+
+! Error: repeat is a token word.

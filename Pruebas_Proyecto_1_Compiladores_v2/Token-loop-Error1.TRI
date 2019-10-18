@@ -1,0 +1,8 @@
+let
+  var loop: Integer
+in
+  putint (loop);
+  puteol ()
+end
+
+! Error: loop is a token word.

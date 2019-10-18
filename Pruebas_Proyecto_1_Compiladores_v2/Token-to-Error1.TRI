@@ -1,0 +1,8 @@
+let
+  var to: Integer
+in
+  putint (to);
+  puteol ()
+end
+
+! Error: to is a token word.
