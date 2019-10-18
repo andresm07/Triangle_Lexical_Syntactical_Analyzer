@@ -12,7 +12,7 @@
  * of the authors.
  */
 
- //Class added on 10/14/19 by andres.mirandaarias@gmail.com
+//VARDECLARATION-INIT USED ON VAR CASE ON SINGLE-DECLARATION, on 10/14/19 by andres.mirandaarias@gmail.com
 
 package Triangle.AbstractSyntaxTrees;
 
@@ -20,8 +20,7 @@ import Triangle.SyntacticAnalyzer.SourcePosition;
 
 public class VarDeclarationInit extends Declaration {
 
-  public VarDeclarationInit (Identifier iAST, Expression eAST,
-                         SourcePosition thePosition) {
+  public VarDeclarationInit (Identifier iAST, Expression eAST,SourcePosition thePosition) {
     super (thePosition);
     I = iAST;
     E = eAST;

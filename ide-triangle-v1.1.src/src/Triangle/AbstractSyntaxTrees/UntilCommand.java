@@ -6,7 +6,8 @@
 package Triangle.AbstractSyntaxTrees;
 
 /**
- *
+ * UNTILCOMMAND CLASS ADDED
+ * DEFINED AS: until EXPRESSION do COMMAND repeat.
  * @author isfa9
  */
 import Triangle.SyntacticAnalyzer.SourcePosition;

@@ -12,7 +12,7 @@
  * of the authors.
  */
 
- //Class added on 10/14/19 by andres.mirandaarias@gmail.com
+ //LOCAL DECLARATION, USED ON LOCAL CASE ON COMPOUND DECLARATION on 10/14/19 by andres.mirandaarias@gmail.com
 
  package Triangle.AbstractSyntaxTrees;
 
@@ -20,8 +20,7 @@
  
  public class LocalDeclaration extends Declaration {
  
-   public LocalDeclaration (Declaration dcl1, Declaration dcl2,
-                          SourcePosition thePosition) {
+   public LocalDeclaration (Declaration dcl1, Declaration dcl2,SourcePosition thePosition) {
      super (thePosition);
      this.dcl1 = dcl1;
      this.dcl2 = dcl2;

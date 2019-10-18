@@ -12,7 +12,7 @@
  * of the authors.
  */
 
- //Class added on 10/14/19 by andres.mirandaarias@gmail.com
+//RECURSIVE DECLARATION, USED IN CASE RECURSIVE ON COMPOUND DECLARATION on 10/14/19 by andres.mirandaarias@gmail.com
 
  package Triangle.AbstractSyntaxTrees;
 
@@ -20,8 +20,7 @@
  
  public class RecursiveDeclaration extends Declaration {
  
-   public RecursiveDeclaration (Declaration procFuncAST,
-                          SourcePosition thePosition) {
+   public RecursiveDeclaration (Declaration procFuncAST,SourcePosition thePosition) {
      super (thePosition);
      this.procFuncAST = procFuncAST;
    }

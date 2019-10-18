@@ -107,17 +107,17 @@ public class TreeVisitor implements Visitor {
         return(createNullary("Empty Command"));
     }
     
-    //doUntil agregado
+    //DOUNTIL TREE VISITOR ADDED
     public Object visitDoUntilCommand(DoUntilCommand ast, Object o){
         return(createBinary("Do Until Command", ast.cAST, ast.eAST));
     }
     
-    //doWhile agregado
+    //DOWHILE TREE VISITOR ADDED.
     public Object visitDoWhileCommand(DoWhileCommand ast, Object o){
         return(createBinary("Do While Command", ast.cAST, ast.eAST));
     }
     
-    //For command agreagado
+    //FOR TREE VISITOR ADDED.
     public Object visitForDoCommand(ForDoCommand ast, Object o){
         return(createQuaternary("For Command",ast.I,ast.E1,ast.E2,ast.C));
     }
@@ -134,7 +134,7 @@ public class TreeVisitor implements Visitor {
         return(createBinary("Sequential Command", ast.C1, ast.C2));
     }
     
-    //until agreagado
+    //UNTIL CMD TREE VISITOR ADDED.
     public Object visitUntilCommand(UntilCommand ast, Object obj) {
         return(createBinary("Until Command", ast.E, ast.C));
     }
@@ -177,10 +177,6 @@ public class TreeVisitor implements Visitor {
     public Object visitLetExpression(LetExpression ast, Object obj) {
         return(createBinary("Let Expression", ast.D, ast.E));
     }
-
-    public Object visitLocalDeclaration(LocalDeclaration ast, Object obj){
-        return(createBinary("Local Declaration", ast.dcl1, ast.dcl2));
-    }
     
     public Object visitRecordExpression(RecordExpression ast, Object obj) {
         return(createUnary("Record Expression", ast.RA));
@@ -209,8 +205,18 @@ public class TreeVisitor implements Visitor {
         return(createQuaternary("Function Declaration", ast.I, ast.FPS, ast.T, ast.E));
     }
     
+    //LOCAL DECL. TREE VISITOR ADDED
+    public Object visitLocalDeclaration(LocalDeclaration ast, Object obj){
+        return(createBinary("Local Declaration", ast.dcl1, ast.dcl2));
+    }
+    
     public Object visitProcDeclaration(ProcDeclaration ast, Object obj) {
         return(createTernary("Procedure Declaration", ast.I, ast.FPS, ast.C));        
+    }
+    
+    //RECURSIVE DECLARATION TREE VISITOR ADDED.
+    public Object visitRecursiveDeclaration(RecursiveDeclaration ast, Object obj){
+        return(createUnary("Recursive Declaration", ast.procFuncAST));
     }
     
     public Object visitSequentialDeclaration(SequentialDeclaration ast, Object obj) {
@@ -229,6 +235,7 @@ public class TreeVisitor implements Visitor {
         return(createBinary("Variable Declaration", ast.I, ast.T));
     }
 
+    //VAR DECL. INIT TREE VISITOR ADDED
     public Object visitVarDeclarationInit(VarDeclarationInit ast, Object obj){
         return(createBinary("Variable Declaration Init", ast.I, ast.E));
     }
@@ -347,10 +354,6 @@ public class TreeVisitor implements Visitor {
     
     public Object visitRecordTypeDenoter(RecordTypeDenoter ast, Object obj) {
         return(createUnary("Record Type Denoter", ast.FT));
-    }
-
-    public Object visitRecursiveDeclaration(RecursiveDeclaration ast, Object obj){
-        return(createUnary("Recursive Declaration", ast.procFuncAST));
     }
     
     public Object visitMultipleFieldTypeDenoter(MultipleFieldTypeDenoter ast, Object obj) {

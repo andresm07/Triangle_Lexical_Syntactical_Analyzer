@@ -8,7 +8,8 @@ package Triangle.AbstractSyntaxTrees;
 import Triangle.SyntacticAnalyzer.SourcePosition;
 
 /**
- *
+ * DOWHILECOMMAND CLASS ADDED
+ * DEFINED AS: loop do COMMAND while EXPRESSION repeat.
  * @author isfa9
  */
 public class DoWhileCommand extends Command

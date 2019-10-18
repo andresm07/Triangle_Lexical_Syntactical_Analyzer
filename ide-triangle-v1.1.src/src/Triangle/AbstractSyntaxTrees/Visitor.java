@@ -20,14 +20,14 @@ public interface Visitor {
   public abstract Object visitAssignCommand(AssignCommand ast, Object o);
   public abstract Object visitCallCommand(CallCommand ast, Object o);
   public abstract Object visitEmptyCommand(EmptyCommand ast, Object o);
-  public abstract Object visitDoUntilCommand(DoUntilCommand ast, Object o); //Visit para DoUntil agregado
-  public abstract Object visitDoWhileCommand(DoWhileCommand ast, Object o); //Visit para DoWhile agregado
-  public abstract Object visitForDoCommand(ForDoCommand ast, Object o); //visit para ForDo agreagado
+  public abstract Object visitDoUntilCommand(DoUntilCommand ast, Object o); //DOUNTIL VISITOR ADDED.
+  public abstract Object visitDoWhileCommand(DoWhileCommand ast, Object o); //DOWHILE VISITOR ADDED.
+  public abstract Object visitForDoCommand(ForDoCommand ast, Object o); //FOR CMD VISITOR ADDED.
   public abstract Object visitIfCommand(IfCommand ast, Object o);
   public abstract Object visitLetCommand(LetCommand ast, Object o);
   public abstract Object visitSequentialCommand(SequentialCommand ast, Object o);
   public abstract Object visitWhileCommand(WhileCommand ast, Object o);
-  public abstract Object visitUntilCommand(UntilCommand ast, Object o); //Visit de Until agreagado
+  public abstract Object visitUntilCommand(UntilCommand ast, Object o); //UNTIL VISITOR ADDED.
 
 
   // Expressions
@@ -47,12 +47,14 @@ public interface Visitor {
   public abstract Object visitBinaryOperatorDeclaration(BinaryOperatorDeclaration ast, Object o);
   public abstract Object visitConstDeclaration(ConstDeclaration ast, Object o);
   public abstract Object visitFuncDeclaration(FuncDeclaration ast, Object o);
+  public abstract Object visitLocalDeclaration(LocalDeclaration ast, Object o);//LOCAL DECLARATION VISITOR ADDED.
   public abstract Object visitProcDeclaration(ProcDeclaration ast, Object o);
+  public abstract Object visitRecursiveDeclaration(RecursiveDeclaration ast, Object o);//RECURSIVE DECL. VISITOR ADDED.
   public abstract Object visitSequentialDeclaration(SequentialDeclaration ast, Object o);
   public abstract Object visitTypeDeclaration(TypeDeclaration ast, Object o);
   public abstract Object visitUnaryOperatorDeclaration(UnaryOperatorDeclaration ast, Object o);
   public abstract Object visitVarDeclaration(VarDeclaration ast, Object o);
-  public abstract Object visitVarDeclarationInit(VarDeclarationInit ast, Object o);
+  public abstract Object visitVarDeclarationInit(VarDeclarationInit ast, Object o);//VAR DECL. INIT VISITOR ADDED.
 
   // Array Aggregates
   public abstract Object visitMultipleArrayAggregate(MultipleArrayAggregate ast, Object o);
@@ -108,8 +110,5 @@ public interface Visitor {
 
   // Programs
   public abstract Object visitProgram(Program ast, Object o);
-
-  public abstract Object visitRecursiveDeclaration(RecursiveDeclaration ast, Object o);
-  public abstract Object visitLocalDeclaration(LocalDeclaration ast, Object o);
 
 }

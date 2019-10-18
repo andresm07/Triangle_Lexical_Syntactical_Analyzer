@@ -8,7 +8,8 @@ package Triangle.AbstractSyntaxTrees;
 import Triangle.SyntacticAnalyzer.SourcePosition;
 
 /**
- *
+ * FORCOMMAND CLASS ADDED
+ * DEFINED AS: loop for IDENTIFIER ~ EXPRESSION to EXPRESSION do COMMAND repeat.
  * @author isfa9
  */
 public class ForDoCommand extends Command

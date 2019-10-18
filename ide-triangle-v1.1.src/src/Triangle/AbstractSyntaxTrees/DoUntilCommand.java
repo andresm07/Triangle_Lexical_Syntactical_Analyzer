@@ -8,7 +8,8 @@ package Triangle.AbstractSyntaxTrees;
 import Triangle.SyntacticAnalyzer.SourcePosition;
 
 /**
- *
+ * DOUNTILCOMMAND CLASS ADDED
+ * DEFINED AS: loop do COMMAND until EXPRESSION repeat.
  * @author isfa9
  */
 public class DoUntilCommand extends Command

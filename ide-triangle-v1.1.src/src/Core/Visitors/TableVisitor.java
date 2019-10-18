@@ -20,15 +20,15 @@ import Triangle.AbstractSyntaxTrees.CharacterLiteral;
 import Triangle.AbstractSyntaxTrees.ConstActualParameter;
 import Triangle.AbstractSyntaxTrees.ConstDeclaration;
 import Triangle.AbstractSyntaxTrees.ConstFormalParameter;
-import Triangle.AbstractSyntaxTrees.DoUntilCommand;
-import Triangle.AbstractSyntaxTrees.DoWhileCommand;
+import Triangle.AbstractSyntaxTrees.DoUntilCommand;//DOUNTIL ADDED
+import Triangle.AbstractSyntaxTrees.DoWhileCommand;//DO WHILE ADDED
 import Triangle.AbstractSyntaxTrees.DotVname;
 import Triangle.AbstractSyntaxTrees.EmptyActualParameterSequence;
 import Triangle.AbstractSyntaxTrees.EmptyCommand;
 import Triangle.AbstractSyntaxTrees.EmptyExpression;
 import Triangle.AbstractSyntaxTrees.EmptyFormalParameterSequence;
 import Triangle.AbstractSyntaxTrees.ErrorTypeDenoter;
-import Triangle.AbstractSyntaxTrees.ForDoCommand;
+import Triangle.AbstractSyntaxTrees.ForDoCommand;//FOR COMMAND ADDED
 import Triangle.AbstractSyntaxTrees.FuncActualParameter;
 import Triangle.AbstractSyntaxTrees.FuncDeclaration;
 import Triangle.AbstractSyntaxTrees.FuncFormalParameter;
@@ -67,7 +67,7 @@ import Triangle.AbstractSyntaxTrees.SubscriptVname;
 import Triangle.AbstractSyntaxTrees.TypeDeclaration;
 import Triangle.AbstractSyntaxTrees.UnaryExpression;
 import Triangle.AbstractSyntaxTrees.UnaryOperatorDeclaration;
-import Triangle.AbstractSyntaxTrees.UntilCommand;
+import Triangle.AbstractSyntaxTrees.UntilCommand;//UNTIL ADDED
 import Triangle.AbstractSyntaxTrees.VarActualParameter;
 import Triangle.AbstractSyntaxTrees.VarDeclaration;
 import Triangle.AbstractSyntaxTrees.VarDeclarationInit;
@@ -115,7 +115,7 @@ public class TableVisitor implements Visitor {
       return(null);
   }
   
-  //DoUntil agregado 
+  //DOUNTIL TABLE VISITOR ADDED 
   public Object visitDoUntilCommand(DoUntilCommand ast, Object o)
   {
       ast.cAST.visit(this, null);
@@ -123,7 +123,7 @@ public class TableVisitor implements Visitor {
       return null;
   }
   
-  //DoWhile agregado
+  //DOWHILE TABLE VISITOR ADDED
   public Object visitDoWhileCommand(DoWhileCommand ast, Object o)
   {
       ast.cAST.visit(this, null);
@@ -135,7 +135,7 @@ public class TableVisitor implements Visitor {
       return(null);
   }
   
-  //for agregado
+  //FORCOMMAND TABLE VISITOR ADDED
   public Object visitForDoCommand(ForDoCommand ast, Object o)
   {
       ast.I.visit(this,null);
@@ -167,7 +167,7 @@ public class TableVisitor implements Visitor {
       return(null);
   }
  
-  //until agregado
+  //UNTIL TABLE-VISITOR ADDED
   public Object visitUntilCommand(UntilCommand ast, Object o) { 
       ast.E.visit(this, null);
       ast.C.visit(this, null);
@@ -232,13 +232,6 @@ public class TableVisitor implements Visitor {
       ast.D.visit(this, null);
       ast.E.visit(this, null);
 
-      return(null);
-  }
-
-  public Object visitLocalDeclaration(LocalDeclaration ast, Object o){
-      ast.dcl1.visit(this,null);
-      ast.dcl2.visit(this,null);
-      
       return(null);
   }
   
@@ -311,6 +304,14 @@ public class TableVisitor implements Visitor {
       return(null);
   }
   
+  //LOCAL DEC. TABLE VISITOR ADDED.
+  public Object visitLocalDeclaration(LocalDeclaration ast, Object o){
+      ast.dcl1.visit(this,null);
+      ast.dcl2.visit(this,null);
+      
+      return(null);
+  }
+  
   public Object visitProcDeclaration(ProcDeclaration ast, Object o) { 
       try {
       addIdentifier(ast.I.spelling, "KnownRoutine", 
@@ -323,6 +324,12 @@ public class TableVisitor implements Visitor {
       ast.FPS.visit(this, null);
       ast.C.visit(this, null);
             
+      return(null);
+  }
+  
+  //RECURSIVE DEC. TABLE VISITOR ADDED.
+  public Object visitRecursiveDeclaration(RecursiveDeclaration ast, Object o){
+      ast.procFuncAST.visit(this,null);
       return(null);
   }
   
@@ -357,7 +364,7 @@ public class TableVisitor implements Visitor {
       return(null);
   }
 
-  //visitVarDeclarationInit was added on 10/14/19 by andres.mirandaarias@gmail.com
+  //VARDECLARATIONINIT ADDED, on 10/14/19 by andres.mirandaarias@gmail.com
   public Object visitVarDeclarationInit(VarDeclarationInit ast, Object o){
       try{
           String type = "";
@@ -579,11 +586,6 @@ public class TableVisitor implements Visitor {
   
   public Object visitRecordTypeDenoter(RecordTypeDenoter ast, Object o) {   
       ast.FT.visit(this, null);
-      return(null);
-  }
-
-  public Object visitRecursiveDeclaration(RecursiveDeclaration ast, Object o){
-      ast.procFuncAST.visit(this,null);
       return(null);
   }
 

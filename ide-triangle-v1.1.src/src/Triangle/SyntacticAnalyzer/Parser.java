@@ -31,15 +31,15 @@ import Triangle.AbstractSyntaxTrees.ConstActualParameter;
 import Triangle.AbstractSyntaxTrees.ConstDeclaration;
 import Triangle.AbstractSyntaxTrees.ConstFormalParameter;
 import Triangle.AbstractSyntaxTrees.Declaration;
-import Triangle.AbstractSyntaxTrees.DoUntilCommand;
-import Triangle.AbstractSyntaxTrees.DoWhileCommand;
+import Triangle.AbstractSyntaxTrees.DoUntilCommand; //ADDED CLASS DOUNTILCOMMAND
+import Triangle.AbstractSyntaxTrees.DoWhileCommand; //ADDED CLASS DOWHILECOMMAND
 import Triangle.AbstractSyntaxTrees.DotVname;
 import Triangle.AbstractSyntaxTrees.EmptyActualParameterSequence;
 import Triangle.AbstractSyntaxTrees.EmptyCommand;
 import Triangle.AbstractSyntaxTrees.EmptyFormalParameterSequence;
 import Triangle.AbstractSyntaxTrees.Expression;
 import Triangle.AbstractSyntaxTrees.FieldTypeDenoter;
-import Triangle.AbstractSyntaxTrees.ForDoCommand;
+import Triangle.AbstractSyntaxTrees.ForDoCommand; //ADDED CLASS FORDOCOMMAND
 import Triangle.AbstractSyntaxTrees.FormalParameter;
 import Triangle.AbstractSyntaxTrees.FormalParameterSequence;
 import Triangle.AbstractSyntaxTrees.FuncActualParameter;
@@ -80,7 +80,7 @@ import Triangle.AbstractSyntaxTrees.SubscriptVname;
 import Triangle.AbstractSyntaxTrees.TypeDeclaration;
 import Triangle.AbstractSyntaxTrees.TypeDenoter;
 import Triangle.AbstractSyntaxTrees.UnaryExpression;
-import Triangle.AbstractSyntaxTrees.UntilCommand;
+import Triangle.AbstractSyntaxTrees.UntilCommand; //ADDED UNTIL COMMAND CLASS
 import Triangle.AbstractSyntaxTrees.VarActualParameter;
 import Triangle.AbstractSyntaxTrees.VarDeclaration;
 import Triangle.AbstractSyntaxTrees.VarDeclarationInit;
@@ -271,6 +271,7 @@ public class Parser {
     return commandAST;
   }
 
+  //MODIFIED ACCORDING BY PROJECT 1 SPECIFICATION, THE COMMANDS ADDED ARE ORDERED IN THE ORDER GAVE BY THE SPEC.
   Command parseSingleCommand() throws SyntaxError {
     Command commandAST = null; // in case there's a syntactic error
 
@@ -300,7 +301,7 @@ public class Parser {
       }
       break;
       
-    //SKIP case,skips the command.
+    //SKIP case added,skips the command.
     case Token.SKIP:
       {
         acceptIt();
@@ -309,13 +310,13 @@ public class Parser {
       }
       break;
       
-    //LOOP case, nuevo acorde a la especificacion 
+    //LOOP COMMAND CASES ADDED ACCORDING BY THE SPEC.
     case Token.LOOP:
       {
         acceptIt();
         switch(currentToken.kind)
         {
-            //while, nuevo acorde la especificacion
+            //WHILE CASE ADDED, nuevo acorde la especificacion
             case Token.WHILE:
             {
               acceptIt();
@@ -327,8 +328,7 @@ public class Parser {
               commandAST = new WhileCommand(e1AST, c1AST, commandPos);
             }
             break;
-            
-            //until, nuevo acorde la especificacion
+            //UNTIL CASE ADDED
             case Token.UNTIL:
             {
               acceptIt();
@@ -337,43 +337,44 @@ public class Parser {
               Command c1AST = parseCommand();
               accept(Token.REPEAT);
               finish(commandPos);
-              commandAST = new UntilCommand(e1AST, c1AST, commandPos);
+              commandAST = new UntilCommand(e1AST, c1AST, commandPos);//UNTIL CMD CLASS ADDED
             }
             break;
             
-            //DO case
+            //DO CASE ADDED
             case Token.DO:
             {
               acceptIt();
               Command c1AST = parseCommand();
               switch(currentToken.kind)
               {
+                  //DO-WHILE COMMAND CASE ADDED
                     case Token.WHILE:
                     {
                       acceptIt();
                       Expression e1AST = parseExpression();
                       accept(Token.REPEAT);
                       finish(commandPos);
-                      commandAST = new DoWhileCommand(c1AST, e1AST, commandPos); //DoWhileCommand
+                      commandAST = new DoWhileCommand(c1AST, e1AST, commandPos); //DoWhileCommand CLASS ADDED
                     }
                     break;
-                  
+                  //DO-UNTIL
                     case Token.UNTIL:
                     {
                       acceptIt();
                       Expression e1AST = parseExpression();
                       accept(Token.REPEAT);
                       finish(commandPos);
-                      commandAST = new DoUntilCommand(c1AST, e1AST, commandPos); //DoUntilCommand
+                      commandAST = new DoUntilCommand(c1AST, e1AST, commandPos); //DoUntilCommand CLASS ADDED
                     }
                     break;
-                  
+                  //SYNTAX EXCEPTION, WHILE OR UNTIL EXPECTED
                     default:
-                      syntacticError("expected while or until, found \"%\"", currentToken.spelling);
+                      syntacticError("While or Until expected, but you typed: \"%\"", currentToken.spelling);
                     }
                     break;
             }
-            
+            //FOR COMMAND CASE, IMPLEMENTED IN QUARTERNARY FORM.
             case Token.FOR:
             {
               acceptIt();
@@ -386,14 +387,14 @@ public class Parser {
               commandAST = parseCommand();
               accept(Token.REPEAT);
               finish(commandPos);
-              commandAST = new ForDoCommand(iAST, eAST, e2AST, commandAST, commandPos);//for command
+              commandAST = new ForDoCommand(iAST, eAST, e2AST, commandAST, commandPos);//FOR COMMAND CLASS
             }
             break;
         }
       }
       break;
       
-    //LET case, modificado a la especificacion  
+    //LET COMMAND CASE,MODIFIED ACCORDING BY SPEC.  
     case Token.LET:
       {
         acceptIt();
@@ -406,7 +407,7 @@ public class Parser {
     }
     break;
     
-    //IF case, modificado acorde la especificacion
+    //IF COMMAND MODIFIED, ACCORDING BY THE SPEC.
     case Token.IF:
     {
         acceptIt();
@@ -422,8 +423,7 @@ public class Parser {
     break;
 
     default:
-      syntacticError("\"%\" cannot start a command",
-        currentToken.spelling);
+      syntacticError("\"%\" cannot start a command", currentToken.spelling);
     break;
     }
     
@@ -661,7 +661,7 @@ public class Parser {
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-// parseDeclaration modified on 10/14/19 by andres.mirandaarias@gmail.com  
+//DECLARATION MODIFIED, ACCORDING BY THE SPEC.   
 Declaration parseDeclaration() throws SyntaxError {
     Declaration declarationAST = null; // in case there's a syntactic error
 
@@ -677,12 +677,13 @@ Declaration parseDeclaration() throws SyntaxError {
     return declarationAST;
   }
 
-  // parseCompoundDeclaration added on 10/14/19 by andres.mirandaarias@gmail.com
+  // COMPOUNDDECLARATION ADDED on 10/14/19 by andres.mirandaarias@gmail.com
   Declaration parseCompoundDeclaration() throws SyntaxError{
     Declaration declarationAST = null; 
     SourcePosition declarationPos = new SourcePosition();
     start(declarationPos);
     switch(currentToken.kind){
+    //SINGLE DECLARATION CASES
       case Token.CONST:
       case Token.VAR:
       case Token.PROC:
@@ -690,6 +691,7 @@ Declaration parseDeclaration() throws SyntaxError {
       case Token.TYPE:
         declarationAST = parseSingleDeclaration();
       break;
+    //RECURSIVE CASE
       case Token.RECURSIVE:
       {
         acceptIt();
@@ -699,6 +701,7 @@ Declaration parseDeclaration() throws SyntaxError {
         declarationAST = new RecursiveDeclaration(declarationAST, declarationPos);
       }
       break;
+      //LOCAL CASE
       case Token.LOCAL:
       {
         acceptIt();
@@ -711,19 +714,19 @@ Declaration parseDeclaration() throws SyntaxError {
       }
       break;
       default:
-      syntacticError("\"%\" error parsing proc-func",
-        currentToken.spelling);
+      syntacticError("\"%\" error parsing proc-func",currentToken.spelling);
       break;
     }
     return declarationAST;    
   }
 
-  // parseProcFunc added on 10/14/19 by andres.mirandaarias@gmail.com
+  //PROC-FUN ADDED on 10/14/19 by andres.mirandaarias@gmail.com
   Declaration parseProcFunc() throws SyntaxError{
     Declaration declarationAST = null;
     SourcePosition declarationPos = new SourcePosition();
     start(declarationPos);
     switch(currentToken.kind){
+    //CASE PROC ADDED
       case Token.PROC:
       {
         acceptIt();
@@ -738,6 +741,7 @@ Declaration parseDeclaration() throws SyntaxError {
         declarationAST = new ProcDeclaration(iAST, fAST, cAST, declarationPos);
       }
       break;
+    //CASE FUNC ADDED
       case Token.FUNC:
       {
         acceptIt();
@@ -754,14 +758,13 @@ Declaration parseDeclaration() throws SyntaxError {
       }
       break;
       default:
-      syntacticError("\"%\" error parsing proc-func",
-        currentToken.spelling);
+      syntacticError("\"%\" error parsing proc-func",currentToken.spelling);
       break;
     }
     return declarationAST;
   }
 
-  // parseProcFuncs added on 10/14/19 by andres.mirandaarias@gmail.com
+  // PROC-FUNCS ADDED on 10/14/19 by andres.mirandaarias@gmail.com
   SequentialDeclaration parseProcFuncs() throws SyntaxError{
     SequentialDeclaration declarationAST = null;
     SourcePosition declarationPos = new SourcePosition();
@@ -794,6 +797,7 @@ Declaration parseDeclaration() throws SyntaxError {
     return declarationAST;
   }
 
+  //SINGLE-DECLARATION MODIFIED, PROC MODIFIED, VAR-INIT ADDED.
   Declaration parseSingleDeclaration() throws SyntaxError {
     Declaration declarationAST = null; // in case there's a syntactic error
 
@@ -813,7 +817,7 @@ Declaration parseDeclaration() throws SyntaxError {
       }
       break;
     
-    //case Var.Init was added
+    //CASE VAR-INIT ADDED.
     case Token.VAR:
       {
         acceptIt();
@@ -839,7 +843,7 @@ Declaration parseDeclaration() throws SyntaxError {
       }
       break;
 
-    //command and end was added, according to proyect specification
+    //CASE PROC MODIFIED.
     case Token.PROC:
       {
         acceptIt();

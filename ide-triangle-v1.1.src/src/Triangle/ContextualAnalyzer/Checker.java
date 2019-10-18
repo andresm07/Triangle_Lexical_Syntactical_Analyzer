@@ -32,8 +32,8 @@ import Triangle.AbstractSyntaxTrees.ConstActualParameter;
 import Triangle.AbstractSyntaxTrees.ConstDeclaration;
 import Triangle.AbstractSyntaxTrees.ConstFormalParameter;
 import Triangle.AbstractSyntaxTrees.Declaration;
-import Triangle.AbstractSyntaxTrees.DoUntilCommand;
-import Triangle.AbstractSyntaxTrees.DoWhileCommand;
+import Triangle.AbstractSyntaxTrees.DoUntilCommand;//DOUNTIL ADDED
+import Triangle.AbstractSyntaxTrees.DoWhileCommand;//DOWHILE ADDED
 import Triangle.AbstractSyntaxTrees.DotVname;
 import Triangle.AbstractSyntaxTrees.EmptyActualParameterSequence;
 import Triangle.AbstractSyntaxTrees.EmptyCommand;
@@ -41,7 +41,7 @@ import Triangle.AbstractSyntaxTrees.EmptyExpression;
 import Triangle.AbstractSyntaxTrees.EmptyFormalParameterSequence;
 import Triangle.AbstractSyntaxTrees.ErrorTypeDenoter;
 import Triangle.AbstractSyntaxTrees.FieldTypeDenoter;
-import Triangle.AbstractSyntaxTrees.ForDoCommand;
+import Triangle.AbstractSyntaxTrees.ForDoCommand;//FOR CMD ADDED
 import Triangle.AbstractSyntaxTrees.FormalParameter;
 import Triangle.AbstractSyntaxTrees.FormalParameterSequence;
 import Triangle.AbstractSyntaxTrees.FuncActualParameter;
@@ -55,7 +55,7 @@ import Triangle.AbstractSyntaxTrees.IntegerExpression;
 import Triangle.AbstractSyntaxTrees.IntegerLiteral;
 import Triangle.AbstractSyntaxTrees.LetCommand;
 import Triangle.AbstractSyntaxTrees.LetExpression;
-import Triangle.AbstractSyntaxTrees.LocalDeclaration;
+import Triangle.AbstractSyntaxTrees.LocalDeclaration;//LOCAL DECL. ADDED
 import Triangle.AbstractSyntaxTrees.MultipleActualParameterSequence;
 import Triangle.AbstractSyntaxTrees.MultipleArrayAggregate;
 import Triangle.AbstractSyntaxTrees.MultipleFieldTypeDenoter;
@@ -68,7 +68,7 @@ import Triangle.AbstractSyntaxTrees.ProcFormalParameter;
 import Triangle.AbstractSyntaxTrees.Program;
 import Triangle.AbstractSyntaxTrees.RecordExpression;
 import Triangle.AbstractSyntaxTrees.RecordTypeDenoter;
-import Triangle.AbstractSyntaxTrees.RecursiveDeclaration;
+import Triangle.AbstractSyntaxTrees.RecursiveDeclaration;//RECURSIVE DECL. ADDED
 import Triangle.AbstractSyntaxTrees.SequentialCommand;
 import Triangle.AbstractSyntaxTrees.SequentialDeclaration;
 import Triangle.AbstractSyntaxTrees.SimpleTypeDenoter;
@@ -84,10 +84,10 @@ import Triangle.AbstractSyntaxTrees.TypeDeclaration;
 import Triangle.AbstractSyntaxTrees.TypeDenoter;
 import Triangle.AbstractSyntaxTrees.UnaryExpression;
 import Triangle.AbstractSyntaxTrees.UnaryOperatorDeclaration;
-import Triangle.AbstractSyntaxTrees.UntilCommand;
+import Triangle.AbstractSyntaxTrees.UntilCommand;//UNTIL ADDED
 import Triangle.AbstractSyntaxTrees.VarActualParameter;
 import Triangle.AbstractSyntaxTrees.VarDeclaration;
-import Triangle.AbstractSyntaxTrees.VarDeclarationInit;
+import Triangle.AbstractSyntaxTrees.VarDeclarationInit;//VAR DECL. INIT ADDED.
 import Triangle.AbstractSyntaxTrees.VarFormalParameter;
 import Triangle.AbstractSyntaxTrees.Visitor;
 import Triangle.AbstractSyntaxTrees.VnameExpression;
@@ -126,37 +126,22 @@ public final class Checker implements Visitor {
     return null;
   }
 
-  //doUntil agregado 
+  //DOUNTIL CHECKER ADDED
   public Object visitDoUntilCommand(DoUntilCommand ast, Object o){
-      TypeDenoter eType = (TypeDenoter) ast.eAST.visit(this, null);
-    if (! eType.equals(StdEnvironment.booleanType))
-      reporter.reportError("Boolean expression expected here", "", ast.eAST.position);
-    ast.eAST.visit(this, null);
-    idTable.openScope();
-    ast.cAST.visit(this, null);
-    idTable.closeScope();
     return null;
   }
   
-  //doWhile  agregado
+  //DO WHILE CHECKER ADDED.
   public Object visitDoWhileCommand(DoWhileCommand ast, Object o)
   {   
-      TypeDenoter eType = (TypeDenoter) ast.eAST.visit(this, null);
-      if (! eType.equals(StdEnvironment.booleanType))
-        reporter.reportError ("Boolean expression expected here", "",
-                            ast.eAST.position);
-      idTable.openScope();
-      ast.cAST.visit(this, null);
-      idTable.closeScope();
-      ast.eAST.visit(this, null);
-      return null;
+    return null;
   }
   
   public Object visitEmptyCommand(EmptyCommand ast, Object o) {
     return null;
   }
 
-  //for command, falta implementar
+  //FOR CMD CHECKER ADDED.
   public Object visitForDoCommand(ForDoCommand ast, Object o){
       return null;
   }
@@ -185,15 +170,8 @@ public final class Checker implements Visitor {
     return null;
   }
   
-  //Until Visitor agregado
+  //UNTIL CHECKER ADDED, NOT IMPLEMENTED.
   public Object visitUntilCommand(UntilCommand ast,Object o){
-    TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
-    if (! eType.equals(StdEnvironment.booleanType))
-      reporter.reportError("Boolean expression expected here", "", ast.E.position);
-    ast.E.visit(this, null);
-    idTable.openScope();
-    ast.C.visit(this, null);
-    idTable.closeScope();
     return null;
   }
   
@@ -300,37 +278,10 @@ public final class Checker implements Visitor {
     return ast.type;
   }
 
-  public Object visitLocalDeclaration(LocalDeclaration ast, Object o){
-    idTable.openLocalScope();
-    if(ast.dcl1 instanceof LocalDeclaration){
-      visitLocalDeclarationNested((LocalDeclaration)ast.dcl1,o);
-    } else{
-      ast.dcl1.visit(this,o);
-    }
-    idTable.closeLocalScope();
-    ast.dcl2.visit(this,o);
-    idTable.clearLocalScope();
-    if(ast.dcl1 instanceof LocalDeclaration){
-      idTable.clearLocalScope();
-    }
-    return null;
-  }
-
-  public Object visitLocalDeclarationNested(LocalDeclaration ast, Object o){
-    ast.dcl1.visit(this,o);
-    ast.dcl2.visit(this,o);
-    return null;
-  }
-
   public Object visitRecordExpression(RecordExpression ast, Object o) {
     FieldTypeDenoter rType = (FieldTypeDenoter) ast.RA.visit(this, null);
     ast.type = new RecordTypeDenoter(rType, ast.position);
     return ast.type;
-  }
-
-  public Object visitRecursiveDeclaration(RecursiveDeclaration ast, Object o){
-    ast.procFuncAST.visit(this,"flag");
-    return(null);
   }
 
   public Object visitUnaryExpression(UnaryExpression ast, Object o) {
@@ -389,6 +340,11 @@ public final class Checker implements Visitor {
                             ast.I.spelling, ast.E.position);
     return null;
   }
+  
+  //LOCAL DECL. CHECKER ADDED
+  public Object visitLocalDeclaration(LocalDeclaration ast,Object o){
+      return null;
+  }
 
   public Object visitProcDeclaration(ProcDeclaration ast, Object o) {
     idTable.enter (ast.I.spelling, ast); // permits recursion
@@ -402,6 +358,11 @@ public final class Checker implements Visitor {
     return null;
   }
 
+  //RECURSIVE DECL CHECKER ADDED.
+  public Object visitRecursiveDeclaration(RecursiveDeclaration ast, Object o){
+    return(null);
+  }
+  
   public Object visitSequentialDeclaration(SequentialDeclaration ast, Object o) {
     ast.D1.visit(this, null);
     ast.D2.visit(this, null);
@@ -431,14 +392,8 @@ public final class Checker implements Visitor {
     return null;
   }
 
-  //visitVarDeclarationInit was added on 10/14/19 by andres.mirandaarias@gmail.com
+  //VAR DECL. INIT CHECKER ADDED. on 10/14/19 by andres.mirandaarias@gmail.com
   public Object visitVarDeclarationInit(VarDeclarationInit ast, Object o){
-    TypeDenoter eType = (TypeDenoter)ast.E.visit(this,null);
-    idTable.enter (ast.I.spelling, ast);
-    if (ast.duplicated)
-      reporter.reportError ("identifier \"%\" already declared",
-                            ast.I.spelling, ast.position);
-
     return null;
   }
 

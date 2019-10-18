@@ -32,15 +32,15 @@ import Triangle.AbstractSyntaxTrees.CharacterLiteral;
 import Triangle.AbstractSyntaxTrees.ConstActualParameter;
 import Triangle.AbstractSyntaxTrees.ConstDeclaration;
 import Triangle.AbstractSyntaxTrees.ConstFormalParameter;
-import Triangle.AbstractSyntaxTrees.DoUntilCommand;
-import Triangle.AbstractSyntaxTrees.DoWhileCommand;
+import Triangle.AbstractSyntaxTrees.DoUntilCommand;//DOUNTIL CMD ADDED
+import Triangle.AbstractSyntaxTrees.DoWhileCommand;//DOWHILE ADDED
 import Triangle.AbstractSyntaxTrees.DotVname;
 import Triangle.AbstractSyntaxTrees.EmptyActualParameterSequence;
 import Triangle.AbstractSyntaxTrees.EmptyCommand;
 import Triangle.AbstractSyntaxTrees.EmptyExpression;
 import Triangle.AbstractSyntaxTrees.EmptyFormalParameterSequence;
 import Triangle.AbstractSyntaxTrees.ErrorTypeDenoter;
-import Triangle.AbstractSyntaxTrees.ForDoCommand;
+import Triangle.AbstractSyntaxTrees.ForDoCommand;//FOR CMD ADDED
 import Triangle.AbstractSyntaxTrees.FuncActualParameter;
 import Triangle.AbstractSyntaxTrees.FuncDeclaration;
 import Triangle.AbstractSyntaxTrees.FuncFormalParameter;
@@ -52,7 +52,7 @@ import Triangle.AbstractSyntaxTrees.IntegerExpression;
 import Triangle.AbstractSyntaxTrees.IntegerLiteral;
 import Triangle.AbstractSyntaxTrees.LetCommand;
 import Triangle.AbstractSyntaxTrees.LetExpression;
-import Triangle.AbstractSyntaxTrees.LocalDeclaration;
+import Triangle.AbstractSyntaxTrees.LocalDeclaration;//LOCAL DECL. ADDED
 import Triangle.AbstractSyntaxTrees.MultipleActualParameterSequence;
 import Triangle.AbstractSyntaxTrees.MultipleArrayAggregate;
 import Triangle.AbstractSyntaxTrees.MultipleFieldTypeDenoter;
@@ -65,7 +65,7 @@ import Triangle.AbstractSyntaxTrees.ProcFormalParameter;
 import Triangle.AbstractSyntaxTrees.Program;
 import Triangle.AbstractSyntaxTrees.RecordExpression;
 import Triangle.AbstractSyntaxTrees.RecordTypeDenoter;
-import Triangle.AbstractSyntaxTrees.RecursiveDeclaration;
+import Triangle.AbstractSyntaxTrees.RecursiveDeclaration; //RECURSIVE DECL. ADDED
 import Triangle.AbstractSyntaxTrees.SequentialCommand;
 import Triangle.AbstractSyntaxTrees.SequentialDeclaration;
 import Triangle.AbstractSyntaxTrees.SimpleTypeDenoter;
@@ -79,10 +79,10 @@ import Triangle.AbstractSyntaxTrees.SubscriptVname;
 import Triangle.AbstractSyntaxTrees.TypeDeclaration;
 import Triangle.AbstractSyntaxTrees.UnaryExpression;
 import Triangle.AbstractSyntaxTrees.UnaryOperatorDeclaration;
-import Triangle.AbstractSyntaxTrees.UntilCommand;
+import Triangle.AbstractSyntaxTrees.UntilCommand;//UNTIL CMD ADDED
 import Triangle.AbstractSyntaxTrees.VarActualParameter;
 import Triangle.AbstractSyntaxTrees.VarDeclaration;
-import Triangle.AbstractSyntaxTrees.VarDeclarationInit;
+import Triangle.AbstractSyntaxTrees.VarDeclarationInit;//VAR DECL. INIT ADDED
 import Triangle.AbstractSyntaxTrees.VarFormalParameter;
 import Triangle.AbstractSyntaxTrees.Visitor;
 import Triangle.AbstractSyntaxTrees.VnameExpression;
@@ -108,12 +108,12 @@ public class LayoutVisitor implements Visitor {
     return layoutBinary("CallCom.", ast.I, ast.APS);
    }
 
-  //Do until command visit
+  //DO UNTIL LAYOUT ADDED
   public Object visitDoUntilCommand(DoUntilCommand ast,Object obj){
       return layoutBinary("DoUntilCom.",ast.cAST,ast.eAST);
   }
   
-  //Do while command visit
+  //DO WHILE LAYOUT ADDED
   public Object visitDoWhileCommand(DoWhileCommand ast,Object obj){
       return layoutBinary("DoWhileCom.",ast.cAST,ast.eAST);
   }
@@ -122,7 +122,7 @@ public class LayoutVisitor implements Visitor {
     return layoutNullary("EmptyCom.");
   }
   
-  //for command, revisarlo.
+  //FOR CMD LAYOUT ADDED
   public Object visitForDoCommand(ForDoCommand ast, Object o) {
     return layoutQuaternary("ForDoCom.", ast.I, ast.E1, ast.E2, ast.C);
   }
@@ -139,7 +139,7 @@ public class LayoutVisitor implements Visitor {
     return layoutBinary("Seq.Com.", ast.C1, ast.C2);
   }
 
-  //until Command visit
+  //UNTIL CMD LAYOUT ADDED
   public Object visitUntilCommand(UntilCommand ast, Object obj){
     return layoutBinary("UntilCom.",ast.E,ast.C);  
   }
@@ -182,10 +182,6 @@ public class LayoutVisitor implements Visitor {
     return layoutBinary("LetExpr.", ast.D, ast.E);
   }
 
-  public Object visitLocalDeclaration(LocalDeclaration ast, Object obj){
-    return layoutBinary("Local Decl.", ast.dcl1, ast.dcl2);
-  }
-
   public Object visitRecordExpression(RecordExpression ast, Object obj) {
     return layoutUnary("Rec.Expr.", ast.RA);
   }
@@ -212,10 +208,20 @@ public class LayoutVisitor implements Visitor {
     return layoutQuaternary("FuncDecl.", ast.I, ast.FPS, ast.T, ast.E);
   }
 
+  //LOCAL DECL. LAYOUT ADDED
+  public Object visitLocalDeclaration(LocalDeclaration ast, Object obj){
+    return layoutBinary("Local Decl.", ast.dcl1, ast.dcl2);
+  }
+  
   public Object visitProcDeclaration(ProcDeclaration ast, Object obj) {
     return layoutTernary("ProcDecl.", ast.I, ast.FPS, ast.C);
   }
 
+  //RECURSIVE DECL. LAYOYT VISITOR.
+  public Object visitRecursiveDeclaration(RecursiveDeclaration ast, Object obj){
+    return layoutUnary("Rec. Decl.", ast.procFuncAST);
+  }
+  
   public Object visitSequentialDeclaration(SequentialDeclaration ast, Object obj) {
     return layoutBinary("Seq.Decl.", ast.D1, ast.D2);
   }
@@ -232,7 +238,7 @@ public class LayoutVisitor implements Visitor {
     return layoutBinary("VarDecl.", ast.I, ast.T);
   }
 
-  //visitVarDeclarationInit was added on 10/14/19 by andres.mirandaarias@gmail.com
+  //VAR DECL INIT LAYOUT ADDED, on 10/14/19 by andres.mirandaarias@gmail.com
   public Object visitVarDeclarationInit(VarDeclarationInit ast, Object obj){
     return layoutBinary("VarDeclInit.", ast.I, ast.E);
   }
@@ -351,10 +357,6 @@ public class LayoutVisitor implements Visitor {
 
   public Object visitRecordTypeDenoter(RecordTypeDenoter ast, Object obj) {
     return layoutUnary("Rec.TypeD.", ast.FT);
-  }
-
-  public Object visitRecursiveDeclaration(RecursiveDeclaration ast, Object obj){
-    return layoutUnary("Rec. Decl.", ast.procFuncAST);
   }
 
   public Object visitMultipleFieldTypeDenoter(MultipleFieldTypeDenoter ast, Object obj) {
