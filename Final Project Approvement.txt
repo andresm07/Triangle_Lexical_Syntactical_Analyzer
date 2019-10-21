@@ -1,0 +1,11 @@
+Final Project Approvement
+
+The project has been approved as a whole by all team members, including internal documentation, project documentation, .jar file, .zip file, and required test cases.
+
+The project comes to an end on 10/20/2019
+
+-------------------------------------------
+Andrés Miranda Arias
+José Alfredo Campos Espinoza
+Ricardo Molina Brenes
+Israel Padilla Jenkins
