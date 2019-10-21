@@ -44,7 +44,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 /**
  * The Main class. Contains the main form.
  *
- * @author Luis Leopoldo P�rez <luiperpe@ns.isi.ulatina.ac.cr>
+ * @author Luis Leopoldo Perez <luiperpe@ns.isi.ulatina.ac.cr>
  */
 public class Main extends javax.swing.JFrame {
 
