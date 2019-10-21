@@ -1,0 +1,9 @@
+let
+  local
+    var num: Integer
+  in
+    var othernum: Integer
+  end
+in
+  skip
+end

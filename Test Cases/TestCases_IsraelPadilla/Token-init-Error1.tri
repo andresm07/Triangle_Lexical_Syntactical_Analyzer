@@ -1,0 +1,8 @@
+let
+  var init: Integer
+in
+  putint (init);
+  puteol ()
+end
+
+! Error: init is a token word.

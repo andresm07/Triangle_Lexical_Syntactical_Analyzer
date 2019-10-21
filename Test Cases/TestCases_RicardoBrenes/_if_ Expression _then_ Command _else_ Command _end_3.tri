@@ -1,0 +1,10 @@
+let
+  var a : Integer
+in 
+  a:=3;
+  if a > 0 then 
+    put ('M')
+  else
+    put ('m')
+  edn
+end

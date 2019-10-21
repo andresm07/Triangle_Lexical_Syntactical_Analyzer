@@ -1,0 +1,3 @@
+begin puteol() end
+
+! Error: Begin is no longer a Token word, and it is not defined in this scope.

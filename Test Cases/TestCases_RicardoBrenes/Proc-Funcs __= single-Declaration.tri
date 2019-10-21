@@ -1,0 +1,8 @@
+let
+    func f (a : Integer): Integer ~ if a > 0 then g(a - 1) else 0 
+in
+
+  putint(f(10))
+
+end
+

@@ -1,0 +1,18 @@
+! if then else end, nueva sintaxis
+
+let
+
+  var a : Integer
+
+in 
+  a:=3;
+! imprimirá M si a es positivo
+! imprimirá m si a <= 0
+
+  if a > 0 then 
+    put ('M')
+  else
+    put ('m')
+  end ! del if
+
+end ! del let

@@ -1,0 +1,8 @@
+let
+  var skip: Integer
+in
+  putint (skip);
+  puteol ()
+end
+
+! Error: skip is a token word.

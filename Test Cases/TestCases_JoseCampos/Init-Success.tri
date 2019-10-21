@@ -1,0 +1,5 @@
+let
+  var doble init num*2
+in
+  skip
+end
