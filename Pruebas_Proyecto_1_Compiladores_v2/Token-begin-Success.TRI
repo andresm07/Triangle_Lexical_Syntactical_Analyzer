@@ -1,9 +1,0 @@
-let
-  var begin: Integer
-in
-  putint (begin);
-  puteol ()
-end
-
-! OK: Begin can be declarated as var name, it is no longer a Token word.
-! CompoundCommand test.

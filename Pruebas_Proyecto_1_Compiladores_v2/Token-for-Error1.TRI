@@ -1,8 +1,0 @@
-let
-  var for: Integer
-in
-  putint (for);
-  puteol ()
-end
-
-! Error: for is a new token word.

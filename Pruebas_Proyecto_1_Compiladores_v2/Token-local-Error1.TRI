@@ -1,8 +1,0 @@
-let
-  var local: Integer
-in
-  putint (local);
-  puteol ()
-end
-
-! Error: local is a token word.

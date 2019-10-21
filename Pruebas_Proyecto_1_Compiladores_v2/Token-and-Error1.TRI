@@ -1,8 +1,0 @@
-let
-  var and: Integer
-in
-  putint (and);
-  puteol ()
-end
-
-! Error: And is a token word.

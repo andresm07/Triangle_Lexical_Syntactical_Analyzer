@@ -1,8 +1,0 @@
-let
-  var recursive: Integer
-in
-  putint (recursive);
-  puteol ()
-end
-
-! Error: recursive is a token word.

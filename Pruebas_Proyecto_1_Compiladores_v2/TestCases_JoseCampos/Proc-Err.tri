@@ -1,7 +1,0 @@
-let
-  proc dos(var i : Integer) ~
-    i := i + uno(i)
-  
-in
-  skip
-end
