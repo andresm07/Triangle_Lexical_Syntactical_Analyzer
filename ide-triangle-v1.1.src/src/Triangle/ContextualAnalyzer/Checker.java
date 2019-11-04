@@ -126,14 +126,19 @@ public final class Checker implements Visitor {
     return null;
   }
 
-  //DOUNTIL CHECKER ADDED
+  //DOUNTIL CHECKER ADDED || IMPLEMENTED nov-3-2019
   public Object visitDoUntilCommand(DoUntilCommand ast, Object o){
+    TypeDenoter eType = (TypeDenoter) ast.eAST.visit(this, null);
+    if (! eType.equals(StdEnvironment.booleanType))
+        reporter.reportError("Boolean expression expected here", "", ast.eAST.position);
     return null;
   }
   
-  //DO WHILE CHECKER ADDED.
-  public Object visitDoWhileCommand(DoWhileCommand ast, Object o)
-  {   
+  //DO WHILE CHECKER ADDED. || IMPLEMENTED nov-3-2019 
+  public Object visitDoWhileCommand(DoWhileCommand ast, Object o){
+    TypeDenoter eType = (TypeDenoter) ast.eAST.visit(this, null);
+    if (! eType.equals(StdEnvironment.booleanType))
+        reporter.reportError("Boolean expression expected here", "", ast.eAST.position);
     return null;
   }
   
@@ -143,6 +148,7 @@ public final class Checker implements Visitor {
 
   //FOR CMD CHECKER ADDED.
   public Object visitForDoCommand(ForDoCommand ast, Object o){
+      
       return null;
   }
   
