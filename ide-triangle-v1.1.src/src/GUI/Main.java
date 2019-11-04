@@ -613,7 +613,7 @@ public class Main extends javax.swing.JFrame {
             ((FileFrame)desktopPane.getSelectedFrame()).clearTAMCode();
             ((FileFrame)desktopPane.getSelectedFrame()).clearTree();
             ((FileFrame)desktopPane.getSelectedFrame()).clearTable();
-            //new File(desktopPane.getSelectedFrame().getTitle().replace(".tri", ".tam")).delete();
+            new File(desktopPane.getSelectedFrame().getTitle().replace(".tri", ".tam")).delete();
             
             output.setDelegate(delegateConsole);            
             if (compiler.compileProgram(desktopPane.getSelectedFrame().getTitle())) {           
@@ -623,11 +623,11 @@ public class Main extends javax.swing.JFrame {
                 //((FileFrame)desktopPane.getSelectedFrame()).setTable(tableVisitor.getTable(compiler.getAST()));
                 
                 //create HTML file of the code
-                HTMLWriter htmlWriter = new HTMLWriter(desktopPane.getSelectedFrame().getTitle().replace(".tri", "html"));
+                HTMLWriter htmlWriter = new HTMLWriter(desktopPane.getSelectedFrame().getTitle().replace(".tri", ".html"));
                 htmlWriter.write(compiler.getHTML());
                 
                 //create the XML file of the AST
-                Writer treeWriterXML = new Writer(desktopPane.getSelectedFrame().getTitle().replace(".tri", "xml"));
+                Writer treeWriterXML = new Writer(desktopPane.getSelectedFrame().getTitle().replace(".tri", ".xml"));
                 treeWriterXML.write(compiler.getAST());
                 
                 
