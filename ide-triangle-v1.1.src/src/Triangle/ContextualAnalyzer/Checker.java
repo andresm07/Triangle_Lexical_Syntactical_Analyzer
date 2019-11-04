@@ -131,6 +131,7 @@ public final class Checker implements Visitor {
     TypeDenoter eType = (TypeDenoter) ast.eAST.visit(this, null);
     if (! eType.equals(StdEnvironment.booleanType))
         reporter.reportError("Boolean expression expected here", "", ast.eAST.position);
+    ast.cAST.visit(this, null);
     return null;
   }
   
@@ -139,6 +140,7 @@ public final class Checker implements Visitor {
     TypeDenoter eType = (TypeDenoter) ast.eAST.visit(this, null);
     if (! eType.equals(StdEnvironment.booleanType))
         reporter.reportError("Boolean expression expected here", "", ast.eAST.position);
+    ast.cAST.visit(this, null);
     return null;
   }
   
@@ -193,6 +195,7 @@ public final class Checker implements Visitor {
     TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
     if (! eType.equals(StdEnvironment.booleanType))
       reporter.reportError("Boolean expression expected here", "", ast.E.position);
+    ast.C.visit(this, null);
     return null;
   }
   
