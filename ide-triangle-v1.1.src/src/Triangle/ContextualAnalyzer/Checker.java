@@ -149,7 +149,19 @@ public final class Checker implements Visitor {
   //FOR CMD CHECKER ADDED.
   public Object visitForDoCommand(ForDoCommand ast, Object o){
       
-      return null;
+    TypeDenoter e1Type = (TypeDenoter) ast.E1.visit(this, null);
+    TypeDenoter e2Type = (TypeDenoter) ast.E2.visit(this, null);
+    TypeDenoter idType = (TypeDenoter) ast.I.visit(this, null);
+    
+    if (! e1Type.equals(StdEnvironment.booleanType))
+        reporter.reportError("Boolean expression expected here", "", ast.E1.position);
+    else if (! e2Type.equals(StdEnvironment.booleanType))
+        reporter.reportError("Boolean expression expected here", "", ast.E2.position);
+    else if (! idType.equals(StdEnvironment.integerType))
+        reporter.reportError("Identifier must be of Integer type", "", ast.I.position);
+    
+    ast.C.visit(this, null);
+    return null;
   }
   
   
@@ -176,7 +188,7 @@ public final class Checker implements Visitor {
     return null;
   }
   
-  //UNTIL CHECKER ADDED, NOT IMPLEMENTED.
+  //UNTIL CHECKER ADDED || IMPLEMENTED nov-3-2019 
   public Object visitUntilCommand(UntilCommand ast,Object o){
     TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
     if (! eType.equals(StdEnvironment.booleanType))
