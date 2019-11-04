@@ -178,6 +178,9 @@ public final class Checker implements Visitor {
   
   //UNTIL CHECKER ADDED, NOT IMPLEMENTED.
   public Object visitUntilCommand(UntilCommand ast,Object o){
+    TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
+    if (! eType.equals(StdEnvironment.booleanType))
+      reporter.reportError("Boolean expression expected here", "", ast.E.position);
     return null;
   }
   
